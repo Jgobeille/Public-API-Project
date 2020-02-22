@@ -22,5 +22,25 @@ https://randomuser.me/
 /* How to approach
 1.) Using Async/Await, make a call to the randomUser API and retrieve the information needed
 2.) Parse the information into JSON
-3.) Map through each data set requested and append to the page 
+3.) Map through each data set up to 12 people requested and dynamically append to the page 
 */
+
+//vars
+const randomUsersUrl = "https://randomuser.me/api/";
+
+//Handle all Fetch requests
+const getJSON = async url => {
+  try {
+    const response = await fetch(url);
+    return await response.json();
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getRandomUsers = async url => {
+  const users = await getJSON(url);
+  console.log(users);
+};
+
+getRandomUsers(randomUsersUrl);
