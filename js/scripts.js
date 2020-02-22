@@ -26,7 +26,8 @@ https://randomuser.me/
 */
 
 //vars
-const randomUsersUrl = "https://randomuser.me/api/";
+const randomUsersUrl =
+  "https://randomuser.me/api/?results=12&nat=us&inc=image,name,email,location";
 
 //Handle all Fetch requests
 const getJSON = async url => {
