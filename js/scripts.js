@@ -41,11 +41,9 @@ const getJSON = async url => {
 };
 
 //get the users
-const getRandomUsers = async url => {
-  const users = await getJSON(url);
+const getRandomUsers = async users => {
   users.results.map(user => {
     generateHTML(user);
-    console.log(user);
   });
 };
 
@@ -67,4 +65,4 @@ const generateHTML = person => {
         `;
 };
 
-getRandomUsers(randomUsersUrl);
+getJSON(randomUsersUrl).then(getRandomUsers);
