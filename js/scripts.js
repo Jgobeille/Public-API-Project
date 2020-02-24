@@ -29,6 +29,7 @@ https://randomuser.me/
 const randomUsersUrl =
   "https://randomuser.me/api/?results=12&nat=us&exc=login,gender,registered,id";
 const gallery = document.querySelector(".gallery");
+const modalArray = [];
 
 //Handle all Fetch requests
 const getJSON = async url => {
@@ -43,9 +44,7 @@ const getJSON = async url => {
 //get the users
 const getRandomUsers = users => {
   users.results.map(user => {
-    console.log(user);
     generateCardHTML(user);
-    generateModalHTML(user);
   });
 };
 
@@ -66,6 +65,9 @@ const generateCardHTML = person => {
           <p class="card-text cap">${person.location.city}, ${person.location.state}</p>
       </div>
         `;
+  const modal = generateModalHTML(person);
+  card.appendChild(modal);
+  modal.style.display = "none";
 };
 
 /**********************************************************
@@ -83,8 +85,8 @@ Refer to the mockups and the comments in the index.html file for an example of w
 
 /* How to approach
 1.) Create a click listener on each card
-2.) 
-3.) Map through each data set up to 12 people requested and dynamically append to the page 
+2.) create modal card generator function
+3.) append the modal to each card and hide it. When click listener clicks on it then add that modal to the page
 */
 
 const generateModalHTML = person => {
@@ -102,16 +104,21 @@ const generateModalHTML = person => {
           <hr>
           <p class="modal-text">${person.cell}</p>
           <p class="modal-text"> ${person.location.street.number} ${person.location.street.name}., ${person.location.city}, ${person.location.state} ${person.location.postcode}</p>
-          <p class="modal-text">Birthday: ${person.dob}</p>
+          <p class="modal-text">Birthday: ${person.dob.date}</p>
       </div>
 
         `;
+
+  return modal;
 };
 
 const cardClickEvent = () => {
   const cards = [...document.querySelectorAll(".card")];
   cards.map(card => {
-    card.addEventListener("click", e => console.log(e));
+    card.addEventListener("click", () => {
+      const modal = card.querySelector(".modal-container");
+      modal.style.display = "";
+    });
   });
 };
 
