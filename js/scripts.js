@@ -90,25 +90,47 @@ Refer to the mockups and the comments in the index.html file for an example of w
 
 const generateModalHTML = person => {
   //dynamically insert card info
+  const date = person.dob.date;
+  const n = date.split("");
   const modal = document.createElement("div");
   modal.className = "modal-container";
   modal.innerHTML = `
   <div class="modal">
       <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
       <div class="modal-info-container">
-          <img class="modal-img" src="${person.picture.large}" alt="profile picture">
-          <h3 id="name" class="modal-name cap">${person.name.first} ${person.name.last}</h3>
+          <img class="modal-img" src="${
+            person.picture.large
+          }" alt="profile picture">
+          <h3 id="name" class="modal-name cap">${person.name.first} ${
+    person.name.last
+  }</h3>
           <p class="modal-text">${person.email}</p>
           <p class="modal-text cap">${person.location.city}</p>
           <hr>
           <p class="modal-text">${person.cell}</p>
-          <p class="modal-text"> ${person.location.street.number} ${person.location.street.name}., ${person.location.city}, ${person.location.state} ${person.location.postcode}</p>
-          <p class="modal-text">Birthday: ${person.dob.date}</p>
+          <p class="modal-text"> ${person.location.street.number} ${
+    person.location.street.name
+  }., ${person.location.city}, ${person.location.state} ${
+    person.location.postcode
+  }</p>
+          <p class="modal-text">Birthday: ${birthday(n)}</p>
       </div>
 
         `;
 
   modalArray.push(modal);
+};
+
+const birthday = n => {
+  const day = getNums(n, 8, 10);
+  const month = getNums(n, 5, 7);
+  const year = getNums(n, 0, 4);
+
+  return `${month}/${day}/${year}`;
+};
+
+const getNums = (varName, num1, num2) => {
+  return varName.slice(num1, num2).join("");
 };
 
 const cardClickEvent = () => {
