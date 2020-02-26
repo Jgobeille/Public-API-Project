@@ -30,6 +30,7 @@ const randomUsersUrl =
   "https://randomuser.me/api/?results=12&nat=us&exc=login,gender,registered,id";
 const gallery = document.querySelector(".gallery");
 const modalArray = [];
+const body = document.querySelector("body");
 
 //Handle all Fetch requests
 const getJSON = async url => {
@@ -65,9 +66,7 @@ const generateCardHTML = person => {
           <p class="card-text cap">${person.location.city}, ${person.location.state}</p>
       </div>
         `;
-  const modal = generateModalHTML(person);
-  card.appendChild(modal);
-  modal.style.display = "none";
+  generateModalHTML(person);
 };
 
 /**********************************************************
@@ -109,16 +108,31 @@ const generateModalHTML = person => {
 
         `;
 
-  return modal;
+  modalArray.push(modal);
 };
 
 const cardClickEvent = () => {
   const cards = [...document.querySelectorAll(".card")];
+
   cards.map(card => {
     card.addEventListener("click", () => {
-      const modal = card.querySelector(".modal-container");
-      modal.style.display = "";
+      const cardName = card.childNodes[3].childNodes[1].textContent;
+      modalArray.map(modal => {
+        const modalName =
+          modal.childNodes[1].childNodes[3].childNodes[3].textContent;
+        if (modalName === cardName) {
+          body.append(modal);
+          modalExitButton(modal);
+        }
+      });
     });
+  });
+};
+
+const modalExitButton = modal => {
+  const exitButton = document.querySelector(".modal-close-btn");
+  exitButton.addEventListener("click", () => {
+    body.removeChild(modal);
   });
 };
 
