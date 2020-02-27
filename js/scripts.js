@@ -52,16 +52,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const gallery = document.querySelector(".gallery");
   const modalArray = [];
 
-  for (let i = 0; i < modalArray.length; i++) {
-    console.log(modalArray[i]);
-  }
   const body = document.querySelector("body");
 
+  const p = document.createElement("p");
+  const classList = document.querySelector(".gallery");
+  p.textContent = "No Employees Found...";
+  p.style.display = "none";
+  p.className = "page__studentList__p";
+  classList.appendChild(p);
+
   const callFunctions = () => {
+    helperFunctions.appendSearchFeature();
+    handlers.searchFunctionHandlers();
+
     mainFunctions
       .getJSON(randomUsersUrl)
       .then(mainFunctions.getRandomUsers)
-      .then(helperFunctions.searchFeature)
+      .then(mainFunctions.searchFunction)
       .then(mainFunctions.cardClickEvent);
   };
   //vars
@@ -148,11 +155,41 @@ document.addEventListener("DOMContentLoaded", () => {
               modal.childNodes[1].childNodes[3].childNodes[3].textContent;
             if (modalName === cardName) {
               body.append(modal);
-              helperFunctions.modalExitButton(modal);
+              let exitButton = modal.querySelector(".modal-close-btn");
+              exitButton.addEventListener("click", () => {
+                modal.remove();
+              });
             }
           });
         });
       });
+    },
+
+    searchFunction: input => {
+      const cards = [...document.querySelectorAll(".card")];
+      if (input) {
+        var newList = cards.filter(card => {
+          //give all items display of none
+          card.style.display = "none";
+          //return all list items that match search function
+
+          return card.childNodes[3].childNodes[1].textContent
+            .toLowerCase()
+            .includes(input.value.toLowerCase());
+        });
+
+        if (newList.length > 0) {
+          p.style.display = "none";
+        } else if (input.value == 0) {
+          p.style.display = "none";
+        } else {
+          p.style.display = "";
+        }
+
+        newList.map(listItem => {
+          listItem.style.display = "";
+        });
+      }
     }
   };
 
@@ -173,21 +210,31 @@ document.addEventListener("DOMContentLoaded", () => {
       return varName.slice(num1, num2).join("");
     },
 
-    modalExitButton: modal => {
-      let exitButton = modal.querySelector(".modal-close-btn");
-      exitButton.addEventListener("click", () => {
-        modal.remove();
-      });
-    },
-    searchFeature: () => {
+    appendSearchFeature: () => {
       const searchContainer = document.querySelector(".search-container");
-      console.log(searchContainer);
       searchContainer.innerHTML = `
       <form action="#" method="get">
       <input type="search" id="search-input" class="search-input" placeholder="Search...">
       <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
   </form>
       `;
+    }
+  };
+
+  //click handlers
+  const handlers = {
+    searchFunctionHandlers: () => {
+      const button = document.querySelector(".search-submit");
+      const search = document.querySelector(".search-input");
+
+      search.addEventListener("keyup", () => {
+        mainFunctions.searchFunction(search);
+      });
+
+      button.addEventListener("click", e => {
+        e.preventDefault();
+        mainFunctions.searchFunction(search);
+      });
     }
   };
 
