@@ -163,6 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
               modal.childNodes[1].childNodes[3].childNodes[3].textContent;
             if (modalName === cardName) {
               body.append(modal);
+              mainFunctions.modalToggle(modal);
               let exitButton = modal.querySelector(".modal-close-btn");
               exitButton.addEventListener("click", () => {
                 modal.remove();
@@ -198,6 +199,23 @@ document.addEventListener("DOMContentLoaded", () => {
           listItem.style.display = "";
         });
       }
+    },
+    /*
+Modal toggle
+Add a way to toggle back and forth between employees when the modal window is open.
+There should be no errors once the end or beginning of the list is reached.
+Example markup for this feature is included in the HTML comments.
+
+How to approach:
+1.) find the current position of the selected modal
+2.) create event Listeners on the previous and next buttons
+3.) if button is next add one to the current position of the modal and minus one for the previous button
+4.) also check if position is the end or beginning of the modalArray to keep from logging errors
+*/
+    modalToggle: modal => {
+      let currentModal = modalArray.indexOf(modal);
+      console.log(currentModal);
+      handlers.modalButtonHandlers();
     }
   };
 
@@ -242,6 +260,19 @@ document.addEventListener("DOMContentLoaded", () => {
       button.addEventListener("click", e => {
         e.preventDefault();
         mainFunctions.searchFunction(search);
+      });
+    },
+
+    modalButtonHandlers: () => {
+      const next = document.querySelector(".modal-next");
+      const prev = document.querySelector(".modal-prev");
+
+      next.addEventListener("click", () => {
+        console.log("next");
+      });
+
+      prev.addEventListener("click", () => {
+        console.log("prev");
       });
     }
   };
