@@ -114,6 +114,8 @@ document.addEventListener("DOMContentLoaded", () => {
       //dynamically insert card info
       const date = person.dob.date;
       const modal = document.createElement("div");
+      const modalButtons = document.createElement("div");
+      modalButtons.className = "modal-btn-container";
       modal.className = "modal-container";
       modal.innerHTML = `
   <div class="modal">
@@ -138,8 +140,14 @@ document.addEventListener("DOMContentLoaded", () => {
             date
           )}</p>
       </div>
-
+  
         `;
+
+      modalButtons.innerHTML = `<div class="modal-btn-container">
+        <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
+        <button type="button" id="modal-next" class="modal-next btn">Next</button>
+    </div>`;
+      modal.appendChild(modalButtons);
 
       modalArray.push(modal);
     },
@@ -199,14 +207,14 @@ document.addEventListener("DOMContentLoaded", () => {
     //takes number strings and then concats them into proper string format
     BirthdayFormatter: date => {
       const nums = date.split("");
-      const day = helperFunctions.getNums(nums, 8, 10);
-      const month = helperFunctions.getNums(nums, 5, 7);
-      const year = helperFunctions.getNums(nums, 0, 4);
+      const day = helperFunctions.slice(nums, 8, 10);
+      const month = helperFunctions.slice(nums, 5, 7);
+      const year = helperFunctions.slice(nums, 0, 4);
 
       return `${month}/${day}/${year}`;
     },
     //takes split string, slices the necessary numbers, then joins them into string
-    getNums: (varName, num1, num2) => {
+    slice: (varName, num1, num2) => {
       return varName.slice(num1, num2).join("");
     },
 
