@@ -179,7 +179,6 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.remove();
       });
     },
-
     searchFeature: () => {
       const searchContainer = document.querySelector(".search-container");
       console.log(searchContainer);
