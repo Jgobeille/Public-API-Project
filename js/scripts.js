@@ -51,12 +51,17 @@ document.addEventListener("DOMContentLoaded", () => {
     "https://randomuser.me/api/?results=12&nat=us&exc=login,gender,registered,id";
   const gallery = document.querySelector(".gallery");
   const modalArray = [];
+
+  for (let i = 0; i < modalArray.length; i++) {
+    console.log(modalArray[i]);
+  }
   const body = document.querySelector("body");
 
   const callFunctions = () => {
     mainFunctions
       .getJSON(randomUsersUrl)
       .then(mainFunctions.getRandomUsers)
+      .then(helperFunctions.searchFeature)
       .then(mainFunctions.cardClickEvent);
   };
   //vars
@@ -169,14 +174,24 @@ document.addEventListener("DOMContentLoaded", () => {
     },
 
     modalExitButton: modal => {
-      const exitButton = document.querySelector(".modal-close-btn");
+      let exitButton = modal.querySelector(".modal-close-btn");
       exitButton.addEventListener("click", () => {
-        body.removeChild(modal);
+        modal.remove();
       });
+    },
+
+    searchFeature: () => {
+      const searchContainer = document.querySelector(".search-container");
+      console.log(searchContainer);
+      searchContainer.innerHTML = `
+      <form action="#" method="get">
+      <input type="search" id="search-input" class="search-input" placeholder="Search...">
+      <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
+  </form>
+      `;
     }
   };
 
   //call functions
-
   callFunctions();
 });
