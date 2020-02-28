@@ -163,7 +163,8 @@ document.addEventListener("DOMContentLoaded", () => {
               modal.childNodes[1].childNodes[3].childNodes[3].textContent;
             if (modalName === cardName) {
               body.append(modal);
-              mainFunctions.modalToggle(modal);
+              // mainFunctions.modalToggle(modal);
+              handlers.modalButtonHandlers(modal);
               let exitButton = modal.querySelector(".modal-close-btn");
               exitButton.addEventListener("click", () => {
                 modal.remove();
@@ -215,7 +216,6 @@ How to approach:
     modalToggle: modal => {
       let currentModal = modalArray.indexOf(modal);
       console.log(currentModal);
-      handlers.modalButtonHandlers();
     }
   };
 
@@ -263,16 +263,49 @@ How to approach:
       });
     },
 
-    modalButtonHandlers: () => {
+    modalButtonHandlers: modal => {
       const next = document.querySelector(".modal-next");
       const prev = document.querySelector(".modal-prev");
+      let currentModal = modalArray.indexOf(modal);
 
       next.addEventListener("click", () => {
         console.log("next");
+        currentModal += 1;
+        if (currentModal >= 0 && currentModal <= 11) {
+          modal.remove();
+          body.append(modalArray[currentModal]);
+          handlers.modalButtonHandlers(modalArray[currentModal]);
+
+          let exitButton = modalArray[currentModal].querySelector(
+            ".modal-close-btn"
+          );
+          exitButton.addEventListener("click", () => {
+            modalArray[currentModal].remove();
+          });
+        } else {
+          currentModal = 10;
+        }
       });
 
       prev.addEventListener("click", () => {
         console.log("prev");
+
+        if (currentModal > 0 && currentModal < 12) {
+          currentModal -= 1;
+          console.log(currentModal);
+          modal.remove();
+          body.append(modalArray[currentModal]);
+          handlers.modalButtonHandlers(modalArray[currentModal]);
+
+          let exitButton = modalArray[currentModal].querySelector(
+            ".modal-close-btn"
+          );
+          exitButton.addEventListener("click", () => {
+            modalArray[currentModal].remove();
+          });
+        } else {
+          currentModal = 0;
+        }
       });
     }
   };
