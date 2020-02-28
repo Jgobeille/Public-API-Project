@@ -143,10 +143,10 @@ document.addEventListener("DOMContentLoaded", () => {
   
         `;
 
-      modalButtons.innerHTML = `<div class="modal-btn-container">
+      modalButtons.innerHTML = `
         <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
         <button type="button" id="modal-next" class="modal-next btn">Next</button>
-    </div>`;
+  `;
       modal.appendChild(modalButtons);
 
       modalArray.push(modal);
@@ -162,12 +162,16 @@ document.addEventListener("DOMContentLoaded", () => {
             const modalName =
               modal.childNodes[1].childNodes[3].childNodes[3].textContent;
             if (modalName === cardName) {
+              modal.classList = "modal-container fade-in";
               body.append(modal);
               // mainFunctions.modalToggle(modal);
               handlers.modalButtonHandlers(modal);
               let exitButton = modal.querySelector(".modal-close-btn");
               exitButton.addEventListener("click", () => {
-                modal.remove();
+                modal.classList = "modal-container fade-out";
+                setTimeout(() => {
+                  modal.remove();
+                }, 1900);
               });
             }
           });
@@ -280,7 +284,11 @@ How to approach:
             ".modal-close-btn"
           );
           exitButton.addEventListener("click", () => {
-            modalArray[currentModal].remove();
+            modalArray[currentModal].classList = "modal-container fade-out";
+
+            setTimeout(() => {
+              modalArray[currentModal].remove();
+            }, 1900);
           });
         } else {
           currentModal = 10;
@@ -301,7 +309,11 @@ How to approach:
             ".modal-close-btn"
           );
           exitButton.addEventListener("click", () => {
-            modalArray[currentModal].remove();
+            modalArray[currentModal].classList = "modal-container fade-out";
+
+            setTimeout(() => {
+              modalArray[currentModal].remove();
+            }, 1900);
           });
         } else {
           currentModal = 0;
