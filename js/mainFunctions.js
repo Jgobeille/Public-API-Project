@@ -5,47 +5,7 @@ BY: JAMIE GOBEILLE
 DATE: 2/22/2019
 ***********************************************************/
 
-/**********************************************************
-OBJECTIVE 1: Get and display 12 random users
-
-With information provided from The Random User Generator API, send a single request to the API, and use the response data to display 12 users, along with some basic information for each:
-Image
-First and Last Name
-Email
-City or location
-Refer to the mockups and the comments in the index.html file for an example of what info should be displayed on the page and how it should be styled.
-
-DOCUMENTATION FOR API BELOW:
-https://randomuser.me/
-
-
-How to approach
-1.) Using Async/Await, make a call to the randomUser API and retrieve the information needed
-2.) Parse the information into JSON
-3.) Map through each data set up to 12 people requested and dynamically append to the page 
-
-***********************************************************/
-
-/**********************************************************
-OBJECTIVE 2:  
-When any part of an employee item in the directory is clicked, a modal window should pop up with the following details displayed:
-Image
-Name
-Email
-City or location
-Cell Number
-Detailed Address, including street name and number, state or country, and post code.
-Birthday
-Make sure there’s a way to close the modal window
-Refer to the mockups and the comments in the index.html file for an example of what info should be displayed on the page and how it should be styled.
-
-How to approach
-1.) Create a click listener on each card
-2.) create modal card generator function
-3.) when card is selected, append that model to the body of the page
-
-***********************************************************/
-
+//waits for HTML to fully load
 document.addEventListener("DOMContentLoaded", () => {
   const randomUsersUrl =
     "https://randomuser.me/api/?results=12&nat=us&exc=login,gender,registered,id";
@@ -150,14 +110,6 @@ document.addEventListener("DOMContentLoaded", () => {
   `;
       modal.appendChild(modalButtons);
 
-      //exit button listener
-      let exitButton = modal.querySelector(".modal-close-btn");
-      exitButton.addEventListener("click", () => {
-        modal.classList = "modal-container fade-out";
-        setTimeout(() => {
-          modal.style.display = "none";
-        }, 2000);
-      });
       const next = modal.querySelector(".modal-next");
       const prev = modal.querySelector(".modal-prev");
 
@@ -165,8 +117,16 @@ document.addEventListener("DOMContentLoaded", () => {
       body.appendChild(modal);
 
       modalArray.push(modal);
-      const currentModal = modalArray.indexOf(modal);
-      handlers.modalButtonHandlers(currentModal, next, prev);
+      //exit button listener
+      let exitButton = modal.querySelector(".modal-close-btn");
+      exitButton.addEventListener("click", () => {
+        modal.classList = "modal-container fade-out";
+        setTimeout(() => {
+          modal.classList = "modal-container";
+          modal.style.display = "none";
+        }, 2000);
+      });
+      handlers.modalButtonHandlers(modal, next, prev);
     },
 
     cardClickEvent: () => {
@@ -179,8 +139,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const modalName =
               modal.childNodes[1].childNodes[3].childNodes[3].textContent;
             if (modalName === cardName) {
-              modal.style.display = "";
               modal.classList = "modal-container fade-in";
+              modal.style.display = "";
             }
           });
         });
@@ -200,34 +160,59 @@ document.addEventListener("DOMContentLoaded", () => {
             .includes(input.value.toLowerCase());
         });
 
-        if (newList.length > 0) {
-          p.style.display = "none";
-        } else if (input.value == 0) {
-          p.style.display = "none";
-        } else {
-          p.style.display = "";
-        }
+        newList.length > 0
+          ? (p.style.display = "none")
+          : input.value == 0
+          ? (p.style.display = "none")
+          : (p.style.display = "");
 
         newList.map(listItem => {
           listItem.style.display = "";
         });
       }
-    },
-    /*
-Modal toggle
-Add a way to toggle back and forth between employees when the modal window is open.
-There should be no errors once the end or beginning of the list is reached.
-Example markup for this feature is included in the HTML comments.
+    }
+  };
 
-How to approach:
-1.) find the current position of the selected modal
-2.) create event Listeners on the previous and next buttons
-3.) if button is next add one to the current position of the modal and minus one for the previous button
-4.) also check if position is the end or beginning of the modalArray to keep from logging errors
-*/
-    modalToggle: modal => {
-      let currentModal = modalArray.indexOf(modal);
-      console.log(currentModal);
+  //click handlers
+  const handlers = {
+    searchFunctionHandlers: () => {
+      const button = document.querySelector(".search-submit");
+      const search = document.querySelector(".search-input");
+
+      search.addEventListener("keyup", () => {
+        mainFunctions.searchFunction(search);
+      });
+
+      button.addEventListener("click", e => {
+        e.preventDefault();
+        mainFunctions.searchFunction(search);
+      });
+    },
+
+    modalButtonHandlers: (modal, next, prev) => {
+      next.addEventListener("click", () => {
+        let currentModal = modalArray.indexOf(modal);
+        modalArray[currentModal].style.display = "none";
+        if (currentModal >= 0 && currentModal < 11) {
+          currentModal += 1;
+          modalArray[currentModal].style.display = "";
+        } else {
+          currentModal = 0;
+          modalArray[currentModal].style.display = "";
+        }
+      });
+
+      prev.addEventListener("click", () => {
+        let currentModal = modalArray.indexOf(modal);
+        modalArray[currentModal].style.display = "none";
+        currentModal -= 1;
+        if (currentModal >= 0 && currentModal < 11) {
+          modalArray[currentModal].style.display = "";
+        } else {
+          currentModal = 11;
+          modalArray[currentModal].style.display = "";
+        }
+      });
     }
   };
 

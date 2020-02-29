@@ -144,9 +144,9 @@ header h1 {
     text-transform: capitalize;
 }
 
-/* .gallery:hover .card:not(:hover) {
+.gallery:hover .card:not(:hover) {
     filter: opacity(50%);
-} */
+}
 
 /* ===================================== 
    Modal
