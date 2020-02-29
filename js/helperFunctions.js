@@ -23,5 +23,39 @@ const helperFunctions = {
       <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
   </form>
       `;
+  },
+
+  exitButton: modal => {
+    let exitButton = modal.querySelector(".modal-close-btn");
+    exitButton.addEventListener("click", () => {
+      modal.classList = "modal-container fade-out";
+      setTimeout(() => {
+        modal.classList = "modal-container";
+        modal.style.display = "none";
+      }, 1900);
+    });
+  },
+
+  modalIncrements: (modalArray, modal, button, num) => {
+    let currentModal = modalArray.indexOf(modal);
+    modalArray[currentModal].style.display = "none";
+    if (button === "prev") {
+      currentModal -= 1;
+    }
+    if (currentModal >= 0 && currentModal < modalArray.length - 1) {
+      if (button === "next") {
+        currentModal += 1;
+      }
+      modalArray[currentModal].classList = "modal-container";
+      modalArray[currentModal].style.display = "";
+    } else {
+      if (button === "next") {
+        currentModal = num;
+      } else {
+        currentModal = num - 1;
+      }
+      modalArray[currentModal].classList = "modal-container";
+      modalArray[currentModal].style.display = "";
+    }
   }
 };

@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const randomUsersUrl =
     "https://randomuser.me/api/?results=12&nat=us&exc=login,gender,registered,id";
   const gallery = document.querySelector(".gallery");
-  const modalArray = [];
+  let modalArray = [];
 
   const body = document.querySelector("body");
 
@@ -48,6 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
     getRandomUsers: users => {
       users.results.map(user => {
         mainFunctions.generateCardHTML(user);
+        mainFunctions.generateModalHTML(user);
       });
     },
 
@@ -68,7 +69,6 @@ document.addEventListener("DOMContentLoaded", () => {
           <p class="card-text cap">${person.location.city}, ${person.location.state}</p>
       </div>
         `;
-      mainFunctions.generateModalHTML(person);
     },
     generateModalHTML: person => {
       //dynamically insert card info
@@ -76,6 +76,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const modal = document.createElement("div");
       const modalButtons = document.createElement("div");
+
+      modal.style.display = "none";
       modalButtons.className = "modal-btn-container";
       modal.className = "modal-container";
       modal.innerHTML = `
@@ -110,22 +112,17 @@ document.addEventListener("DOMContentLoaded", () => {
   `;
       modal.appendChild(modalButtons);
 
-      const next = modal.querySelector(".modal-next");
-      const prev = modal.querySelector(".modal-prev");
-
-      modal.style.display = "none";
       body.appendChild(modal);
 
       modalArray.push(modal);
+
+      //modal Buttons related
+
+      const next = modal.querySelector(".modal-next");
+      const prev = modal.querySelector(".modal-prev");
       //exit button listener
-      let exitButton = modal.querySelector(".modal-close-btn");
-      exitButton.addEventListener("click", () => {
-        modal.classList = "modal-container fade-out";
-        setTimeout(() => {
-          modal.classList = "modal-container";
-          modal.style.display = "none";
-        }, 2000);
-      });
+      helperFunctions.exitButton(modal);
+      //adds click handlers to buttons
       handlers.modalButtonHandlers(modal, next, prev);
     },
 
@@ -166,8 +163,18 @@ document.addEventListener("DOMContentLoaded", () => {
           ? (p.style.display = "none")
           : (p.style.display = "");
 
+        modalArray = [];
+        const modals = [...document.querySelectorAll(".modal-container")];
         newList.map(listItem => {
           listItem.style.display = "";
+          const cardName = listItem.childNodes[3].childNodes[1].textContent;
+          modals.map(modal => {
+            const modalName =
+              modal.childNodes[1].childNodes[3].childNodes[3].textContent;
+            if (modalName === cardName) {
+              modalArray.push(modal);
+            }
+          });
         });
       }
     }
@@ -191,27 +198,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     modalButtonHandlers: (modal, next, prev) => {
       next.addEventListener("click", () => {
-        let currentModal = modalArray.indexOf(modal);
-        modalArray[currentModal].style.display = "none";
-        if (currentModal >= 0 && currentModal < 11) {
-          currentModal += 1;
-          modalArray[currentModal].style.display = "";
-        } else {
-          currentModal = 0;
-          modalArray[currentModal].style.display = "";
-        }
+        helperFunctions.modalIncrements(modalArray, modal, "next", 0);
       });
 
       prev.addEventListener("click", () => {
-        let currentModal = modalArray.indexOf(modal);
-        modalArray[currentModal].style.display = "none";
-        currentModal -= 1;
-        if (currentModal >= 0 && currentModal < 11) {
-          modalArray[currentModal].style.display = "";
-        } else {
-          currentModal = 11;
-          modalArray[currentModal].style.display = "";
-        }
+        helperFunctions.modalIncrements(
+          modalArray,
+          modal,
+          "prev",
+          modalArray.length
+        );
       });
     }
   };
