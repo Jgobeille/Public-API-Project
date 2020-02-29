@@ -88,6 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
     getRandomUsers: users => {
       users.results.map(user => {
         mainFunctions.generateCardHTML(user);
+        mainFunctions.generateModalHTML(user);
       });
     },
 
@@ -108,7 +109,6 @@ document.addEventListener("DOMContentLoaded", () => {
           <p class="card-text cap">${person.location.city}, ${person.location.state}</p>
       </div>
         `;
-      mainFunctions.generateModalHTML(person);
     },
     generateModalHTML: person => {
       //dynamically insert card info
@@ -162,17 +162,17 @@ document.addEventListener("DOMContentLoaded", () => {
             const modalName =
               modal.childNodes[1].childNodes[3].childNodes[3].textContent;
             if (modalName === cardName) {
-              modal.classList = "modal-container fade-in";
-              body.append(modal);
+              // modal.classList = "modal-container fade-in";
+              // body.append(modal);
               // mainFunctions.modalToggle(modal);
-              handlers.modalButtonHandlers(modal);
-              let exitButton = modal.querySelector(".modal-close-btn");
-              exitButton.addEventListener("click", () => {
-                modal.classList = "modal-container fade-out";
-                setTimeout(() => {
-                  modal.remove();
-                }, 1900);
-              });
+              // handlers.modalButtonHandlers(modal);
+              // let exitButton = modal.querySelector(".modal-close-btn");
+              // exitButton.addEventListener("click", () => {
+              //   modal.classList = "modal-container fade-out";
+              //   setTimeout(() => {
+              //     modal.remove();
+              //   }, 2000);
+              // });
             }
           });
         });
@@ -220,105 +220,6 @@ How to approach:
     modalToggle: modal => {
       let currentModal = modalArray.indexOf(modal);
       console.log(currentModal);
-    }
-  };
-
-  //Helper functions
-
-  const helperFunctions = {
-    //takes number strings and then concats them into proper string format
-    BirthdayFormatter: date => {
-      const nums = date.split("");
-      const day = helperFunctions.slice(nums, 8, 10);
-      const month = helperFunctions.slice(nums, 5, 7);
-      const year = helperFunctions.slice(nums, 0, 4);
-
-      return `${month}/${day}/${year}`;
-    },
-    //takes split string, slices the necessary numbers, then joins them into string
-    slice: (varName, num1, num2) => {
-      return varName.slice(num1, num2).join("");
-    },
-
-    appendSearchFeature: () => {
-      const searchContainer = document.querySelector(".search-container");
-      searchContainer.innerHTML = `
-      <form action="#" method="get">
-      <input type="search" id="search-input" class="search-input" placeholder="Search...">
-      <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
-  </form>
-      `;
-    }
-  };
-
-  //click handlers
-  const handlers = {
-    searchFunctionHandlers: () => {
-      const button = document.querySelector(".search-submit");
-      const search = document.querySelector(".search-input");
-
-      search.addEventListener("keyup", () => {
-        mainFunctions.searchFunction(search);
-      });
-
-      button.addEventListener("click", e => {
-        e.preventDefault();
-        mainFunctions.searchFunction(search);
-      });
-    },
-
-    modalButtonHandlers: modal => {
-      const next = document.querySelector(".modal-next");
-      const prev = document.querySelector(".modal-prev");
-      let currentModal = modalArray.indexOf(modal);
-
-      next.addEventListener("click", () => {
-        console.log("next");
-        currentModal += 1;
-        if (currentModal >= 0 && currentModal <= 11) {
-          modal.remove();
-          body.append(modalArray[currentModal]);
-          handlers.modalButtonHandlers(modalArray[currentModal]);
-
-          let exitButton = modalArray[currentModal].querySelector(
-            ".modal-close-btn"
-          );
-          exitButton.addEventListener("click", () => {
-            modalArray[currentModal].classList = "modal-container fade-out";
-
-            setTimeout(() => {
-              modalArray[currentModal].remove();
-            }, 1900);
-          });
-        } else {
-          currentModal = 10;
-        }
-      });
-
-      prev.addEventListener("click", () => {
-        console.log("prev");
-
-        if (currentModal > 0 && currentModal < 12) {
-          currentModal -= 1;
-          console.log(currentModal);
-          modal.remove();
-          body.append(modalArray[currentModal]);
-          handlers.modalButtonHandlers(modalArray[currentModal]);
-
-          let exitButton = modalArray[currentModal].querySelector(
-            ".modal-close-btn"
-          );
-          exitButton.addEventListener("click", () => {
-            modalArray[currentModal].classList = "modal-container fade-out";
-
-            setTimeout(() => {
-              modalArray[currentModal].remove();
-            }, 1900);
-          });
-        } else {
-          currentModal = 0;
-        }
-      });
     }
   };
 

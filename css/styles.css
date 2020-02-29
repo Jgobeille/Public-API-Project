@@ -27,7 +27,7 @@ body {
 }
 
 header {
-    padding: 15px 5px 5px;
+    padding: 25px 5px 20px 5px;
     background-color: #22D1EE;
     margin-bottom: 40px;
 }
@@ -38,11 +38,17 @@ header {
 }
 
 header h1 {
+    display: inline-block;
     font-family: 'Press Start 2P';
     letter-spacing: 1px;
-    font-size: 1.2em;
-    color: background: #0E153A;
+    font-size: .9em;
+    color: #0E153A;
     margin-top: 35px;
+}
+
+.coffee {
+    height: 200px;
+    width: 200px;
 }
 
 .search-input {
