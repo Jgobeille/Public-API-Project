@@ -88,7 +88,6 @@ document.addEventListener("DOMContentLoaded", () => {
     getRandomUsers: users => {
       users.results.map(user => {
         mainFunctions.generateCardHTML(user);
-        mainFunctions.generateModalHTML(user);
       });
     },
 
@@ -109,10 +108,12 @@ document.addEventListener("DOMContentLoaded", () => {
           <p class="card-text cap">${person.location.city}, ${person.location.state}</p>
       </div>
         `;
+      mainFunctions.generateModalHTML(person);
     },
     generateModalHTML: person => {
       //dynamically insert card info
       const date = person.dob.date;
+
       const modal = document.createElement("div");
       const modalButtons = document.createElement("div");
       modalButtons.className = "modal-btn-container";
@@ -149,7 +150,23 @@ document.addEventListener("DOMContentLoaded", () => {
   `;
       modal.appendChild(modalButtons);
 
+      //exit button listener
+      let exitButton = modal.querySelector(".modal-close-btn");
+      exitButton.addEventListener("click", () => {
+        modal.classList = "modal-container fade-out";
+        setTimeout(() => {
+          modal.style.display = "none";
+        }, 2000);
+      });
+      const next = modal.querySelector(".modal-next");
+      const prev = modal.querySelector(".modal-prev");
+
+      modal.style.display = "none";
+      body.appendChild(modal);
+
       modalArray.push(modal);
+      const currentModal = modalArray.indexOf(modal);
+      handlers.modalButtonHandlers(currentModal, next, prev);
     },
 
     cardClickEvent: () => {
@@ -162,17 +179,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const modalName =
               modal.childNodes[1].childNodes[3].childNodes[3].textContent;
             if (modalName === cardName) {
-              // modal.classList = "modal-container fade-in";
-              // body.append(modal);
-              // mainFunctions.modalToggle(modal);
-              // handlers.modalButtonHandlers(modal);
-              // let exitButton = modal.querySelector(".modal-close-btn");
-              // exitButton.addEventListener("click", () => {
-              //   modal.classList = "modal-container fade-out";
-              //   setTimeout(() => {
-              //     modal.remove();
-              //   }, 2000);
-              // });
+              modal.style.display = "";
+              modal.classList = "modal-container fade-in";
             }
           });
         });
