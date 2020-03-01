@@ -47,8 +47,8 @@ header h1 {
 }
 
 .coffee {
-    height: 200px;
-    width: 200px;
+    height: 100px;
+    width: 150px;
 }
 
 .noEmployees,
@@ -444,15 +444,119 @@ header h1 {
     }
 }
 
+/* next slide in animation keyframes */
 
-@keyframes slideInFromLeft {
-    from {
-        margin-left: 100%;
-        width: 300%;
+.nextSlideIn {
+    -webkit-animation: nextSlideIn 2s forwards;
+    -moz-animation: nextSlideIn 2s forwards;
+    animation: nextSlideIn 2s forwards;
+}
+
+@-webkit-keyframes nextSlideIn {
+    0% {
+        transform: translateX(-900px);
     }
 
-    to {
-        margin-left: 50%;
+    100% {
+        transform: translateX(0);
+    }
+}
 
+@-moz-keyframes nextSlideIn {
+    0% {
+        transform: translateX(-900px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes nextSlideIn {
+    0% {
+        transform: translateX(-900px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+
+/* next slide out animation keyframes */
+
+.nextSlideOut {
+    -webkit-animation: nextSlideOut 2s forwards;
+    -moz-animation: nextSlideOut 2s forwards;
+    animation: nextSlideOut 2s forwards;
+}
+
+@-webkit-keyframes nextSlideOut {
+    0% {
+        transform: translateX(0px);
+    }
+
+    100% {
+        transform: translateX(900px);
+    }
+}
+
+@-moz-keyframes nextSlideOut {
+    0% {
+        transform: translateX(0px);
+    }
+
+    100% {
+        transform: translateX(900px);
+    }
+}
+
+@keyframes nextSlideOut {
+    0% {
+        transform: translateX(0px);
+    }
+
+    100% {
+        transform: translateX(900px);
+    }
+}
+
+
+
+
+/* slide in from left animation keyframes */
+.prevSlideOut {
+    -webkit-animation: prevSlideOut 2s forwards;
+    -moz-animation: prevSlideOut 2s forwards;
+    animation: prevSlideOut 2s forwards;
+}
+
+@-webkit-keyframes prevSlideOut {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-900px);
+    }
+}
+
+@-moz-keyframes prevSlideOut {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-900px);
+    }
+}
+
+@keyframes prevSlideOut {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-900px);
     }
 }

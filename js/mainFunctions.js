@@ -184,7 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
         newList.map(listItem => {
           listItem.style.display = "";
           const cardName = listItem.childNodes[3].childNodes[1].textContent;
-          modals.map(modal => {
+          modalArray = modals.filter(modal => {
             const modalName =
               modal.childNodes[1].childNodes[3].childNodes[3].textContent;
             if (modalName === cardName) {
