@@ -47,13 +47,63 @@ This project has several interesting features to make the code clean, more DRY, 
 6. next and previous buttons that allow the user to go through modals of all users
 7. CSS animations to enhance user interaction
 
+## Usage
+
+To make a request the randomuser API, you need to use some type of asynchronous code like AJAX, traditional promises, Fetch APi, async/await or a combination of those to send a request for data.
+
+First, you need to specify the URL of the website, and then the parameters of what information you would like from the API
+
+1. First add the URL : https://randomuser.me/api/
+2. Use a query string to specify the data you want : ?results=12&nat=us&exc=login,gender,registered,id&lego
+
+- This query string asks for 12 results, users must have US nationality, user picture will be lego people and to exclude login, gender, if registered, and their ID.
+
+Example of the URL requesting information from API
+
+```
+  const randomUsersUrl =
+    "https://randomuser.me/api/?results=12&nat=us&exc=login,gender,registered,id&lego";
+
+```
+
+This code example below uses async/await and Fetch API to send request to API, the browser will work asynchronously to grab the information while letting the user still interact with the page. Once that information has been given, the information will be parsed so it can be used on the page.
+
+Lastly, traditional promises are used to execute these functions in order. Without the API information, these functions will fire and create errors because they are missing vital information.
+
+```
+getJSON: async url => {
+      try {
+        const response = await fetch(url);
+        return await response.json();
+      } catch (error) {
+        const div2 = document.createElement("div");
+        div2.className = "badServer";
+        div2.innerHTML = `<h3>Looks like the server went and picked a bundle of WHOOPSIE DAISIES!</h3>
+        <p> Please refresh the page and try and again</p>
+        <p>${error}</p>`;
+        gallery.appendChild(div2);
+        throw error;
+      }
+    }
+
+        mainFunctions
+      .getJSON(randomUsersUrl)
+      .then(mainFunctions.getRandomUsers)
+      .then(mainFunctions.searchFunction)
+      .then(mainFunctions.cardClickEvent);
+
+```
+
+---
+
 ## Code Example
 
 ---
 
 This examples highlights the readability of async/await style of asynchronous programming. It is very similar to synchronous style of code syntactically
 
-```getJSON: async url => {
+```
+getJSON: async url => {
       try {
         const response = await fetch(url);
         return await response.json();
