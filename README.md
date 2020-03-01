@@ -101,10 +101,10 @@ This example is of a reusable function that determines if next or previous butto
 
 ---
 
-![Image description](images\project-5-screenshot-1.png)
-![Image description](images\project-5-screenshot-2.png)
-![Image description](images\project-5-screenshot-3.png)
-![Image description](images\project-5-screenshot-4.png)
+![Image description](images/project-5-screenshot-1.png)
+![Image description](images/project-5-screenshot-2.png)
+![Image description](images/project-5-screenshot-3.png)
+![Image description](images/project-5-screenshot-4.png)
 
 ## Style Changes
 
