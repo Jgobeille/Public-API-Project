@@ -8,23 +8,33 @@ DATE: 2/22/2019
 //waits for HTML to fully load
 document.addEventListener("DOMContentLoaded", () => {
   const randomUsersUrl =
-    "https://randomuser.me/api/?results=12&nat=us&exc=login,gender,registered,id";
+    "https://randomuser.me/api/?results=12&nat=us&exc=login,gender,registered,id&lego";
   const gallery = document.querySelector(".gallery");
   let modalArray = [];
 
   const body = document.querySelector("body");
 
-  const p = document.createElement("p");
-  const classList = document.querySelector(".gallery");
-  p.textContent = "No Employees Found...";
-  p.style.display = "none";
-  p.className = "page__studentList__p";
-  classList.appendChild(p);
+  const div = document.createElement("div");
+  div.className = "noEmployees";
+  const galleryContainer = document.querySelector(".gallery");
+  div.innerHTML = `<p> No employees found...</p>
+  <p>Suggestions:</p>
+  <ul>
+   <li> Make sure all words are spelled correctly.</li>
+   <li> Try more general keywords.</li>
+   <li> Try different keywords</li>
+  </ul>
+  
+  `;
+  div.style.display = "none";
+
+  galleryContainer.appendChild(div);
 
   const callFunctions = () => {
     helperFunctions.appendSearchFeature();
     handlers.searchFunctionHandlers();
 
+    //call these functions in order to make sure specific data is loaded when function is called
     mainFunctions
       .getJSON(randomUsersUrl)
       .then(mainFunctions.getRandomUsers)
@@ -40,11 +50,17 @@ document.addEventListener("DOMContentLoaded", () => {
         const response = await fetch(url);
         return await response.json();
       } catch (error) {
+        const div2 = document.createElement("div");
+        div2.className = "badServer";
+        div2.innerHTML = `<h3>Looks like the server went and picked a bundle of WHOOPSIE DAISIES!</h3>
+        <p> Please refresh the page and try and again</p>
+        <p>${error}</p>`;
+        gallery.appendChild(div2);
         throw error;
       }
     },
 
-    //get the users
+    //get the users and create the card and modal HTML
     getRandomUsers: users => {
       users.results.map(user => {
         mainFunctions.generateCardHTML(user);
@@ -121,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const next = modal.querySelector(".modal-next");
       const prev = modal.querySelector(".modal-prev");
       //exit button listener
-      helperFunctions.exitButton(modal);
+      handlers.exitButton(modal);
       //adds click handlers to buttons
       handlers.modalButtonHandlers(modal, next, prev);
     },
@@ -158,10 +174,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         newList.length > 0
-          ? (p.style.display = "none")
+          ? (div.style.display = "none")
           : input.value == 0
-          ? (p.style.display = "none")
-          : (p.style.display = "");
+          ? (div.style.display = "none")
+          : (div.style.display = "");
 
         modalArray = [];
         const modals = [...document.querySelectorAll(".modal-container")];
@@ -193,6 +209,17 @@ document.addEventListener("DOMContentLoaded", () => {
       button.addEventListener("click", e => {
         e.preventDefault();
         mainFunctions.searchFunction(search);
+      });
+    },
+
+    exitButton: modal => {
+      let exitButton = modal.querySelector(".modal-close-btn");
+      exitButton.addEventListener("click", () => {
+        modal.classList = "modal-container fade-out";
+        setTimeout(() => {
+          modal.classList = "modal-container";
+          modal.style.display = "none";
+        }, 1900);
       });
     },
 

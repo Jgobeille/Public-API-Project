@@ -25,17 +25,6 @@ const helperFunctions = {
       `;
   },
 
-  exitButton: modal => {
-    let exitButton = modal.querySelector(".modal-close-btn");
-    exitButton.addEventListener("click", () => {
-      modal.classList = "modal-container fade-out";
-      setTimeout(() => {
-        modal.classList = "modal-container";
-        modal.style.display = "none";
-      }, 1900);
-    });
-  },
-
   modalIncrements: (modalArray, modal, button, num) => {
     let currentModal = modalArray.indexOf(modal);
     modalArray[currentModal].style.display = "none";
